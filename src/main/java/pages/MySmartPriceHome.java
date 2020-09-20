@@ -12,29 +12,34 @@ public class MySmartPriceHome extends Base{
     By item=By.xpath("//h1[@itemprop='name']");
     By itemPrice=By.xpath("//span[@class='prdct-dtl__prc-val']");
     By shoppingSites=By.xpath("//div[@class='prc-tbl__row-wrpr ']");
+    static List<WebElement> shoppingList= new ArrayList<WebElement>();
 
     ////div[@*='flipkart']/div/div[@class='prc-tbl__btn']
 
     public String getSmartPrice(WebDriver driver) {
         String price="";
-        price=driver.findElement(itemPrice).getAttribute("value");
+        WebElement priceEle=driver.findElement(itemPrice);
+        price=priceEle.getText();
         return price;
     }
 
     public List<WebElement> getShoppoingSites(WebDriver driver) {
-        List<WebElement> shoppingList= new ArrayList<WebElement>();
         shoppingList=driver.findElements(shoppingSites);
         return shoppingList;
     }
     public int getShoppoingSiteCount(WebDriver driver) {
         int count=0;
-        count=getShoppoingSites(driver).size();
+        if (shoppingList.isEmpty())
+            shoppingList=getShoppoingSites(driver);
+        count=shoppingList.size();
         return count;
     }
 
     public String getShoppingSiteName(WebDriver driver, int i) {
         String site="";
-        getShoppoingSites(driver).get(i).getAttribute("data-storename");
+        if (shoppingList.isEmpty())
+            shoppingList=getShoppoingSites(driver);
+        site=shoppingList.get(i).getAttribute("data-storename");
         return site;
     }
 
