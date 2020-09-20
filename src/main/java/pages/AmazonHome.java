@@ -8,7 +8,7 @@ public class AmazonHome extends Base implements ShoppingSite{
 
     public String getItemPrice(WebDriver driver) {
         String price="";
-        price=driver.findElement(itemPrice).getAttribute("value");
-        return price;
+        price=driver.findElement(itemPrice).getText();
+        return price.replace("₹","");
     }
 }
